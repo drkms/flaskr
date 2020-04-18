@@ -1,7 +1,6 @@
 import os
 from flask import Flask
 
-
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -23,7 +22,13 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import db
+    @app.route("/hello")
+    def hello():
+        return "Hello, World!"
+
+    # register the database commands
+    from flaskr import db
+
     db.init_app(app)
 
     from . import auth
@@ -38,9 +43,9 @@ def create_app(test_config=None):
 #app = Flask(__name__, instance_relative_config=True)
 app = create_app()
 
-from app import views
+#from app import views
 
-app.config.from_object('config')
+#app.config.from_object('config')
 
 #from flask_login import LoginManager
 #rom flask.ext.acl import ACLManager
